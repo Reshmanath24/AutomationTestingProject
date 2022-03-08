@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using PractiseAutomation.Utilities;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace PractiseAutomation.Pages
             //click on typecode dropdown
             IWebElement typecodeDropdown = driver.FindElement(By.XPath("//*[@id='TimeMaterialEditForm']/div/div[1]/div/span[1]/span"));
             typecodeDropdown.Click();
-            Wait.WaitToBeClickable(driver, "XPath", "//*[@id='TypeCode_listbox']/li[1]", 2);
+            Wait.WaitToBeClickable(driver, "XPath", "//*[@id='TypeCode_listbox']/li[1]", 10);
 
 
             //Select Material from the typecode dropdown
@@ -46,52 +47,81 @@ namespace PractiseAutomation.Pages
             //Click on save button
             IWebElement saveButton = driver.FindElement(By.Id("SaveButton"));
             saveButton.Click();
-            Wait.WaitToBeClickable(driver, "XPath", "//*[@id='tmsGrid']/div[4]/a[4]/span", 2);
+            Wait.WaitToBeVisible(driver, "XPath", "//*[@id='tmsGrid']/div[3]/table/tbody/tr[1]/td[1]", 60);
 
 
             //click on GoToLastPageButton
             IWebElement goToLastPageButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[4]/a[4]/span"));
             goToLastPageButton.Click();
-            Wait.WaitToBeClickable(driver, "XPath", "//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]", 2);
+            //Thread.Sleep(5000);
+            Wait.WaitToBeClickable(driver, "XPath", "//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]", 5);
 
 
             //checking the created material is saved or not
-            IWebElement checkSavedValue = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
-            if (checkSavedValue.Text == "PractiseAutomation")
+            IWebElement checkSavedCode = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
+            IWebElement checkSavedType = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[2]"));
+            IWebElement checkSavedDescription = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[3]"));
+            IWebElement checkSavedPrice = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[4]"));
+
+
+            //option 1
+
+            Assert.That(checkSavedCode.Text == "PractiseAutomation", "Expected code did not match, test failed");
+            Assert.That(checkSavedType.Text == "M", "Expected code did not match,test failed");
+            Assert.That(checkSavedDescription.Text == "AutomationDescription", "Expected decription did not match,test failed");
+            Assert.That(checkSavedPrice.Text == "$123.00", "Expected price did not match,test failed");
+
+            //option 2
+
+            //if (checkSavedCode.Text == "PractiseAutomation")
+            //{
+            //    Assert.Pass("Material created successfully, test passed);
+            //}
+            //else
+            //{
+            //    Assert.Fail("Test failed");
+            //}
+        }
+        // ==============EDIT STARTS HERE===============================
+        // 1. click on edit button
+        // 2. Edit code field
+        // 3. Edit description field
+        // 4. Edit price field
+        // 5. save editted details
+
+        public void EditTM(IWebDriver driver)
+        {
+            Wait.WaitToBeVisible(driver, "XPath", "//*[@id='tmsGrid']/div[3]/table/tbody/tr[1]/td[1]", 60);
+
+            //Go to last page
+            IWebElement editGoToLastPage1 = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[4]/a[4]/span"));
+            editGoToLastPage1.Click();
+            Wait.WaitToBeVisible(driver, "XPath", "//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]", 60);
+            //Thread.Sleep(5000);
+
+            //check the element to be editted is ours
+            IWebElement elementToBeEditted = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
+            if(elementToBeEditted.Text == "PractiseAutomation")
             {
-                Console.WriteLine("Material created successfully, test passed");
+                //click on edit button
+                IWebElement editButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[5]/a[1]"));
+                editButton.Click();
             }
             else
             {
-                Console.WriteLine("Test failed");
+                Assert.Fail("Record to be editted is not found");
             }
-
-            // ==============EDIT STARTS HERE===============================
-            // 1. click on edit button
-            // 2. Edit code field
-            // 3. Edit description field
-            // 4. Edit price field
-            // 5. save editted details
-
-        }
-        public void EditTM(IWebDriver driver)
-        {
-
-            //click on edit button
-
-            IWebElement editButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[5]/a[1]"));
-            editButton.Click();
 
             //Edit code field
             IWebElement editCode = driver.FindElement(By.Id("Code"));
             editCode.Clear();
-            editCode.SendKeys("EditCheck");
+            editCode.SendKeys("EditCheck123");
 
             //Edit description field
 
             IWebElement editDescription = driver.FindElement(By.Id("Description"));
             editDescription.Clear();
-            editDescription.SendKeys("EditDescription");
+            editDescription.SendKeys("EditDescription123");
 
             //Edit Price field
             IWebElement clickOnPrice = driver.FindElement(By.XPath("//*[@id='TimeMaterialEditForm']/div/div[4]/div/span[1]/span/input[1]"));
@@ -106,50 +136,80 @@ namespace PractiseAutomation.Pages
 
             IWebElement editSaveButton = driver.FindElement(By.Id("SaveButton"));
             editSaveButton.Click();
-            Wait.WaitToBeClickable(driver, "XPath", "//*[@id='tmsGrid']/div[4]/a[4]/span", 2);
+            Wait.WaitToBeVisible(driver, "XPath", "//*[@id='tmsGrid']/div[3]/table/tbody/tr[1]/td[1]", 60);
 
             //Go to last page
             IWebElement editGoToLastPage = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[4]/a[4]/span"));
             editGoToLastPage.Click();
-            Wait.WaitToBeClickable(driver, "XPath", "//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]", 2);
 
-            IWebElement checkEdittedValue = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
+            //Wait.WaitToBeClickable(driver, "XPath", "//*[@id='tmsGrid']/div[3]/table/tbody/tr[9]/td[1]", 2);
+            Wait.WaitToBeVisible(driver, "XPath", "//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]", 60);
+            //Thread.Sleep(5000);
 
-            if (checkEdittedValue.Text == "EditCheck")
-            {
-                Console.WriteLine("Editted successfully, test passed.");
-            }
-            else
-            {
-                Console.WriteLine("Test failed");
-            }
+            IWebElement checkEdittedCode = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
+            IWebElement checkEdittedType = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[2]"));
+            IWebElement checkEdittedDescription = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[3]"));
+            IWebElement checkEdittedPrice = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[4]"));
+
+            Assert.That(checkEdittedCode.Text == "EditCheck123", "editted code and expected code do not match,Edit failed");
+            Assert.That(checkEdittedType.Text == "M", "editted type and expected type do not match,Edit failed");
+            Assert.That(checkEdittedDescription.Text == "EditDescription123", "editted description and expected description do not match,Edit failed");
+            Assert.That(checkEdittedPrice.Text == "$100.00", "editted price and expected price do not match,Edit failed");
+
+            //if (checkEdittedValue.Text == "EditCheck")
+            //{
+            //    Console.WriteLine("Editted successfully, test passed.");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Test failed");
+            //}
 
         }
-        // ==============DELETE STARTS HERE===============================
-        // 1. click on delete button
-        // 2. Confirm to delete
 
-
-        //Click on delete button
         public void DeleteTM(IWebDriver driver)
         {
+            Wait.WaitToBeVisible(driver, "XPath", "//*[@id='tmsGrid']/div[3]/table/tbody/tr[1]/td[1]", 10);
+            //click on GoToLastPageButton
+            IWebElement goToLastPageButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[4]/a[4]/span"));
+            goToLastPageButton.Click();
 
-            IWebElement deleteButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[5]/a[2]"));
 
             IWebElement checkEdittedValueforDelete = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
-            if (checkEdittedValueforDelete.Text == "EditCheck")
+            if (checkEdittedValueforDelete.Text == "EditCheck123")
             {
+                IWebElement deleteButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[5]/a[2]"));
+
                 deleteButton.Click();
+
                 // Confirm to delete
                 IAlert alert = driver.SwitchTo().Alert();
                 alert.Accept();
-                Console.WriteLine("Deleted Sucessfully,Test passed");
+
+                Assert.Pass("Deleted successfully");
             }
             else
             {
                 Console.WriteLine("Test failed");
+                Assert.Fail("Record to be deleted is not found, test failed");
             }
-        
+
+            //refresh the page to validate the record has been deleted.
+            driver.Navigate().Refresh();
+
+            IWebElement goToLastPageButton1 = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[4]/a[4]/span"));
+            goToLastPageButton1.Click();
+
+            IWebElement checkEdittedCode = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
+            IWebElement checkEdittedType = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[2]"));
+            IWebElement checkEdittedDescription = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[3]"));
+            IWebElement checkEdittedPrice = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[4]"));
+
+            Assert.That(checkEdittedCode.Text =="EditCheck123", "code not deleted successfully,test passed");
+            Assert.That(checkEdittedType.Text == "M", "Type not deleted successfully,test passed");
+            Assert.That(checkEdittedDescription.Text == "EditDescription123", "Decription not deleted successfully,test passed");
+            Assert.That(checkEdittedPrice.Text == "$100.00", "Price not deleted successfully,test passed");
+
         }
     }
 }

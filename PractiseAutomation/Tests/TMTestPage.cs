@@ -1,38 +1,55 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using PractiseAutomation.Utilities;
 using System;
 using System.Threading;
+using PractiseAutomation.Pages;
 
-namespace PractiseAutomation.Pages
+namespace PractiseAutomation.Tests
 
-{
-    internal class TMTestPage
+{ 
+    [TestFixture] //similar to test scenarios
+    [Parallelizable]
+    internal class TMTestPage : CommonDriver
+        
 
-    {
-        static void Main(string[] args)
         {
-            // open chrome browser.
-            IWebDriver driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
-
-            //login page object initialisation
-            LoginPage loginPageObject = new LoginPage();
-            loginPageObject.LoginMethod(driver);
-
+            [Test, Order(1), Description("Check whether user is able to create material record")]  //similar to test case
+            public void CreateTM_Test()
+            {
             //home page object initialisation
             HomePage homePageObject = new HomePage();
-            homePageObject.HomePageMethod(driver);
+            homePageObject.GoToTMPage(driver);
 
-            //TM page object initialisation
             TMPage tmPageObject = new TMPage();
-            tmPageObject.TMCreate(driver);
-            tmPageObject.EditTM(driver);
-            tmPageObject.DeleteTM(driver);
+                tmPageObject.TMCreate(driver);
+            }
 
+            [Test,Order(2), Description("Check whether user is able to edit the created record")]
+            public void EditTM_Test()
+            {
+            //home page object initialisation
+            HomePage homePageObject = new HomePage();
+            homePageObject.GoToTMPage(driver);
 
+            TMPage tmPageObject = new TMPage();
+                tmPageObject.EditTM(driver);
+            }
 
+            [Test, Order(3), Description("check whether user is able to delete an existing record")]
+            public void DeleteTM_Test()
+            {
+            //home page object initialisation
+            HomePage homePageObject = new HomePage();
+            homePageObject.GoToTMPage(driver);
 
+            TMPage tmPageObject = new TMPage();
+                tmPageObject.DeleteTM(driver);
+
+            }
+
+           
         }
     }
-        }
 

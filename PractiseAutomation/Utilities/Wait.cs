@@ -13,7 +13,7 @@ namespace PractiseAutomation.Utilities
     {
         public static void WaitToBeClickable(IWebDriver driver, string locator, string locatorValue, int seconds)
         {
-            var wait = new WebDriverWait(driver, new TimeSpan(0,0,2));
+            var wait = new WebDriverWait(driver, new TimeSpan(0,0, seconds));
             if (locator == "XPath")
             {
 
@@ -26,18 +26,18 @@ namespace PractiseAutomation.Utilities
             }
             if (locator == "CssSelector")
             {
-
+                    
                 wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(locatorValue)));
             }
         }
         public static void WaitToBeVisible(IWebDriver driver, string locator, string locatorValue, int seconds)
         {
-            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 2));
+            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, seconds));
             if (locator == "XPath")
             {
 
                 wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(locatorValue)));
-            }
+            }   
             if (locator == "Id")
             {
 
