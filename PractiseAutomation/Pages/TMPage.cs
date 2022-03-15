@@ -55,21 +55,44 @@ namespace PractiseAutomation.Pages
             goToLastPageButton.Click();
             //Thread.Sleep(5000);
             Wait.WaitToBeClickable(driver, "XPath", "//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]", 5);
+        }
 
+        //checking the created material is saved or not
 
-            //checking the created material is saved or not
+        public string GetCode(IWebDriver driver)
+        {
             IWebElement checkSavedCode = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
+            return checkSavedCode.Text;
+        }
+
+        public string GetTypeCode(IWebDriver driver)
+        {
             IWebElement checkSavedType = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[2]"));
+            return checkSavedType.Text;
+
+        }
+
+        public string GetDescription(IWebDriver driver)
+        {
             IWebElement checkSavedDescription = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[3]"));
+            return checkSavedDescription.Text;
+        }
+
+        public string GetPrice(IWebDriver driver)
+        {
             IWebElement checkSavedPrice = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[4]"));
+            return checkSavedPrice.Text;
+        }
 
 
-            //option 1
 
-            Assert.That(checkSavedCode.Text == "PractiseAutomation", "Expected code did not match, test failed");
-            Assert.That(checkSavedType.Text == "M", "Expected code did not match,test failed");
-            Assert.That(checkSavedDescription.Text == "AutomationDescription", "Expected decription did not match,test failed");
-            Assert.That(checkSavedPrice.Text == "$123.00", "Expected price did not match,test failed");
+
+        //option 1
+
+        //Assert.That(checkSavedCode.Text == "PractiseAutomation", "Expected code did not match, test failed");
+        //    Assert.That(checkSavedType.Text == "M", "Expected code did not match,test failed");
+        //    Assert.That(checkSavedDescription.Text == "AutomationDescription", "Expected decription did not match,test failed");
+        //    Assert.That(checkSavedPrice.Text == "$123.00", "Expected price did not match,test failed");
 
             //option 2
 
@@ -81,7 +104,7 @@ namespace PractiseAutomation.Pages
             //{
             //    Assert.Fail("Test failed");
             //}
-        }
+        
         // ==============EDIT STARTS HERE===============================
         // 1. click on edit button
         // 2. Edit code field
@@ -89,7 +112,7 @@ namespace PractiseAutomation.Pages
         // 4. Edit price field
         // 5. save editted details
 
-        public void EditTM(IWebDriver driver)
+        public void EditTM(IWebDriver driver, string description, string code, string price)
         {
             Wait.WaitToBeVisible(driver, "XPath", "//*[@id='tmsGrid']/div[3]/table/tbody/tr[1]/td[1]", 60);
 
@@ -115,13 +138,13 @@ namespace PractiseAutomation.Pages
             //Edit code field
             IWebElement editCode = driver.FindElement(By.Id("Code"));
             editCode.Clear();
-            editCode.SendKeys("EditCheck123");
+            editCode.SendKeys(code);
 
             //Edit description field
 
             IWebElement editDescription = driver.FindElement(By.Id("Description"));
             editDescription.Clear();
-            editDescription.SendKeys("EditDescription123");
+            editDescription.SendKeys(description);
 
             //Edit Price field
             IWebElement clickOnPrice = driver.FindElement(By.XPath("//*[@id='TimeMaterialEditForm']/div/div[4]/div/span[1]/span/input[1]"));
@@ -130,7 +153,7 @@ namespace PractiseAutomation.Pages
 
             editPrice.Clear();
             clickOnPrice.Click();
-            editPrice.SendKeys("100");
+            editPrice.SendKeys(price);
 
             //save editted details
 
@@ -146,15 +169,11 @@ namespace PractiseAutomation.Pages
             Wait.WaitToBeVisible(driver, "XPath", "//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]", 60);
             //Thread.Sleep(5000);
 
-            IWebElement checkEdittedCode = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
-            IWebElement checkEdittedType = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[2]"));
-            IWebElement checkEdittedDescription = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[3]"));
             IWebElement checkEdittedPrice = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[4]"));
 
-            Assert.That(checkEdittedCode.Text == "EditCheck123", "editted code and expected code do not match,Edit failed");
-            Assert.That(checkEdittedType.Text == "M", "editted type and expected type do not match,Edit failed");
-            Assert.That(checkEdittedDescription.Text == "EditDescription123", "editted description and expected description do not match,Edit failed");
-            Assert.That(checkEdittedPrice.Text == "$100.00", "editted price and expected price do not match,Edit failed");
+            //Assert.That(checkEdittedCode.Text == "EditCheck123", "editted code and expected code do not match,Edit failed");
+            //Assert.That(checkEdittedType.Text == "M", "editted type and expected type do not match,Edit failed");
+            //Assert.That(checkEdittedPrice.Text == "$100.00", "editted price and expected price do not match,Edit failed");
 
             //if (checkEdittedValue.Text == "EditCheck")
             //{
@@ -164,6 +183,23 @@ namespace PractiseAutomation.Pages
             //{
             //    Console.WriteLine("Test failed");
             //}
+
+        }
+        public string edittedDescription(IWebDriver driver)
+        {
+            IWebElement checkEdittedDescription = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[3]"));
+            return checkEdittedDescription.Text;
+        }
+        public string edittedCode(IWebDriver driver)
+        {
+            IWebElement checkEdittedCode = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
+            return checkEdittedCode.Text;
+
+        }
+        public string edittedPrice(IWebDriver driver)
+        {
+            IWebElement checkEdittedType = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[2]"));
+            return checkEdittedType.Text;
 
         }
 

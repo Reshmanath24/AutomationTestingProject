@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PractiseAutomation.Utilities
 {
-    internal class CommonDriver
+    public class CommonDriver
     {
         public IWebDriver driver;
 

@@ -34,7 +34,7 @@ namespace PractiseAutomation.Tests
             homePageObject.GoToTMPage(driver);
 
             TMPage tmPageObject = new TMPage();
-                tmPageObject.EditTM(driver);
+                tmPageObject.EditTM(driver, "dummy","dummy2","dummy3");
             }
 
             [Test, Order(3), Description("check whether user is able to delete an existing record")]
