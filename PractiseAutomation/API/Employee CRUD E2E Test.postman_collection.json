@@ -60,12 +60,9 @@
 					}
 				},
 				"url": {
-					"raw": "http://dummy.restapiexample.com/api/v1/create",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/api/v1/create",
 					"host": [
-						"dummy",
-						"restapiexample",
-						"com"
+						"{{baseUrl}}"
 					],
 					"path": [
 						"api",
@@ -114,12 +111,9 @@
 					}
 				},
 				"url": {
-					"raw": "http://dummy.restapiexample.com/api/v1/update/{{employeeID}}",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/api/v1/update/{{employeeID}}",
 					"host": [
-						"dummy",
-						"restapiexample",
-						"com"
+						"{{baseUrl}}"
 					],
 					"path": [
 						"api",
@@ -167,12 +161,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://dummy.restapiexample.com/api/v1/delete/{{employeeID}}",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/api/v1/delete/{{employeeID}}",
 					"host": [
-						"dummy",
-						"restapiexample",
-						"com"
+						"{{baseUrl}}"
 					],
 					"path": [
 						"api",
